@@ -1,2 +1,4 @@
 *.DS_store
 *.xlsx
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*

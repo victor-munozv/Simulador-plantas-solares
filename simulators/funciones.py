@@ -5,7 +5,12 @@ import pvlib
 from pvlib import location
 from datetime import datetime
 ################################################################################################
-
+def filter_day_by_year(year, data):
+    filter_data = data[['Fecha', 'año', 'Total']]
+    filter_data = filter_data.loc[filter_data['año'] == year]
+    #filter_data = filter_data.set_index('Fecha')
+    filter_data = filter_data[['Fecha','Total']]
+    return filter_data
 ################################################################################################
 def plot(x,y,y2,size,save,name_file,color,title,x_label,y_label):
     fig=plt.figure(figsize=size)

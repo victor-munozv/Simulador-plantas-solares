@@ -51,8 +51,8 @@ MV_Power_Station_1600SC = {
 }
 
 System = {
-    'azimuth': 180,
+    'azimuth': 0,
     'tilt': 10,
-    'm_p_s': 280, #126
-    's_p_i': 40   #20
+    'm_p_s': 20, #126
+    's_p_i': 140   #20
 }

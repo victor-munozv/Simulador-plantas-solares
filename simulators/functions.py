@@ -12,7 +12,7 @@ def filter_day_by_year(year, data):
     filter_data = filter_data[['Fecha','Total']]
     return filter_data
 ################################################################################################
-def plot(x,y,y2,size,save,name_file,color,title,x_label,y_label):
+def plot_2(x,y,y2,size,save,name_file,color,title,x_label,y_label):
     fig=plt.figure(figsize=size)
     if color == 'none':
         plt.plot(pd.to_datetime(x),y)
@@ -20,6 +20,25 @@ def plot(x,y,y2,size,save,name_file,color,title,x_label,y_label):
         plt.plot(pd.to_datetime(x),y,c=color)
     
     plt.plot(pd.to_datetime(x),y2)
+    plt.title(title)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    if save == 'si':
+        plt.savefig(name_file+'.'+'png',
+                   dpi=400,
+                   format='png')
+    plt.grid()
+    #plt.legend()
+    plt.tight_layout()   
+    plt.show()
+################################################################################################
+def plot_1(x,y,size,save,name_file,color,title,x_label,y_label):
+    fig=plt.figure(figsize=size)
+    if color == 'none':
+        plt.plot(pd.to_datetime(x),y)
+    else:
+        plt.plot(pd.to_datetime(x),y,c=color)
+    
     plt.title(title)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
@@ -56,6 +75,27 @@ def weather_solcast(r):
                'ghi',
                'relative_humidity',
                'wind_speed']
+    ss = pd.read_csv(r,header=0,names=columns)
+    format = '%Y-%m-%d %H:%M:%S'
+    ss['utc_time'] = pd.to_datetime(ss['utc_time'],infer_datetime_format=True)
+    ss = ss.set_index(pd.DatetimeIndex(ss['utc_time']))
+    ss = ss.drop(['utc_time'], axis=1)
+    return ss
+################################################################################################
+def weather_solcast_2(r):
+    columns = ['utc_time',
+               'DateStart',
+               'Periodo',
+               'temp_air',
+               'azimuth',
+               'cloud_opacity',
+               'dhi',
+               'dni',
+               'ebh',
+               'ghi',
+               'relative_humidity',
+               'wind_speed',
+               'zenith']
     ss = pd.read_csv(r,header=0,names=columns)
     format = '%Y-%m-%d %H:%M:%S'
     ss['utc_time'] = pd.to_datetime(ss['utc_time'],infer_datetime_format=True)

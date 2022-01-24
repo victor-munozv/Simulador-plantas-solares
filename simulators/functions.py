@@ -51,7 +51,9 @@ def plot_1(x,y,size,save,name_file,color,title,x_label,y_label):
     plt.tight_layout()   
     plt.show()
 ################################################################################################
-def get_times_weather(s, loc):
+def get_times_weather(s, loc, c):
+    print('primer dia',s.iloc[0].name)
+    print('ultimo dia',s.iloc[-1].name)
     t = pd.date_range(start=s.iloc[0].name,
                       end=s.iloc[-1].name,
                       freq='1h',
@@ -60,8 +62,7 @@ def get_times_weather(s, loc):
     w = w.reset_index()
     w['date'] = t
     w = w.set_index(pd.DatetimeIndex(w['date']))
-    columns = ['ghi','dni','dhi','temp_air', 'wind_speed']
-    w = pd.DataFrame(w[columns])
+    w = pd.DataFrame(w[c])
     return t,w
 ################################################################################################
 def weather_solcast(r):

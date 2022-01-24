@@ -27,6 +27,7 @@ JAM60S03 = {
 #'Version': 'NRELv1',     #
 #'PTC': 368.4,            #
 'gamma_pdc': -0.36,       #
+ 'p_mp' : 325,   
 'pdc0': 325,              # potencia del modulo
 #'Technology': 'Mono-c-Si'
  'Name': 'JAM60S03'
@@ -45,14 +46,14 @@ MV_Power_Station_1600SC = {
     "Pnt": 222.6,
     #"Vdcmax": ,
     #"Idcmax": ,
-    "Mppt_low": 500,     # la entrada minima de voltaje por entrada de mppt
-    "Mppt_high": 530,    # 
+    "Mppt_low": 530,     # la entrada minima de voltaje por entrada de mppt
+    "Mppt_high": 850,    # 
     "Name": "MV_Power_Station_1600SC" 
 }
 
 System = {
-    'azimuth': 0,
-    'tilt': 10,
+    'azimuth': 15,
+    'tilt': 22,
     'm_p_s': 20, #126
-    's_p_i': 140   #20
+    's_p_i': 252   #20
 }

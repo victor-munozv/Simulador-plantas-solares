@@ -28,7 +28,7 @@ def plot_2(x,y,y2,size,save,name_file,color,title,x_label,y_label):
                    dpi=400,
                    format='png')
     plt.grid()
-    #plt.legend()
+    plt.legend()
     plt.tight_layout()   
     plt.show()
 ################################################################################################

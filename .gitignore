@@ -1,5 +1,6 @@
 *.DS_store
 *.xlsx
+*.pickle
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 **/__pycache__

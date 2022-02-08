@@ -26,8 +26,8 @@ JKM330PP_72 = {
 #'gamma_r': -0.41,         #
 #'Version': 'NRELv1',      #
 #'PTC': 302.8,             #
-'gamma_pdc': -0.004,#-0.36,        #
-#'p_mp' : 330,            #
+'gamma_pdc': -0.004,       #-0.36
+#'p_mp' : 330,             #
 'pdc0': 330,               # potencia del modulo
 #'Technology': 'Mono-c-Si'#
  'Name': 'JKM330PP_72'     # name

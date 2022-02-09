@@ -53,6 +53,7 @@ def filter_hour_from_dataFrame(data=None,
                                first_year=None, 
                                last_year=None,
                                months = [1,2,3,4,5,6,7,8,9,10,11,12],
+                               multi = 1,
                                p = False): 
     if not isinstance(data, pd.DataFrame):
         print('ERROR1: Data is not a',pd.DataFrame)
@@ -100,7 +101,7 @@ def filter_hour_from_dataFrame(data=None,
                     hour = [int(temp)for temp in h.split() if temp.isdigit()][0]
                     hour_id = int(hour)-1                           # extraer la hora espesificada como id del arreglo de horas
                     date_by_hour = date_rng[hour_id]                # obtener la fecha del arreglo de 'fechas por hora'
-                    systems[pv][date_by_hour] = value               # guardar el valor en la 'fecha por hora' correspondiente
+                    systems[pv][date_by_hour] = value*multi         # guardar el valor en la 'fecha por hora' correspondiente
                     if p:
                         print('pv:',pv,'year:',year,'Hour:',h,'Date:',date_by_hour,'value:',systems[pv][date_by_hour])
             else:
@@ -115,6 +116,7 @@ def filter_day_from_dataFrame(data=None,
                               first_year=None, 
                               last_year=None,
                               months = [1,2,3,4,5,6,7,8,9,10,11,12],
+                              multi = 1,
                               p = False): 
     if not isinstance(data, pd.DataFrame):
         print('ERROR1: Data is not a',pd.DataFrame)
@@ -153,9 +155,9 @@ def filter_day_from_dataFrame(data=None,
             year = int(date.split('-')[0])
             month = int(date.split('-')[1])
             if (year >= first_year ) and (year <= last_year) and month in months:
-                date_rng = pd.date_range(start=date,end=date, freq='D')       # crear un arreglo de 'fechas por dia'
-                value = log[column_total]                            # obtener el valor diario
-                systems[pv][date_rng[0]] = value                     # guardar el valor en la 'fecha por dia' correspondiente
+                date_rng = pd.date_range(start=date,end=date, freq='D')  # crear un arreglo de 'fechas por dia'
+                value = log[column_total] * multi                        # obtener el valor diario
+                systems[pv][date_rng[0]] = value                         # guardar el valor en la 'fecha por dia' correspondiente
                 if p:
                     print('pv:',pv,'year:',year,'Date',date_rng[0],'value',systems[pv][date_rng[0]])
             else:

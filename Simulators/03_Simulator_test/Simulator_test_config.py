@@ -1,11 +1,11 @@
 Location = {
-    'lat' : -33.29847219499249,
-    'long' : -70.86425000115533,
+    'lat' : -32.7777,
+    'long' : -70.8163,
     'tz' : 'America/Santiago',
     'alt' : 46
 }
 
-JKM330PP_72 = {
+JAM60S01_310 = {
 #'BIPV': 'N',              # está en el techo o no
 #'Date': '1/1/2018',       # para saber la "depreciación"
 #'T_NOCT': 45.1,           # temperatura de operacion
@@ -28,14 +28,14 @@ JKM330PP_72 = {
 #'PTC': 302.8,             #
 'gamma_pdc': -0.004,       #-0.36
 #'p_mp' : 330,             #
-'pdc0': 330,               # potencia del modulo
+'pdc0': 310,               # potencia del modulo
 #'Technology': 'Mono-c-Si'#
- 'Name': 'JKM330PP_72'     # name
+ 'Name': 'JAM60S01_310'     # name
 }
 
-ABB_ULTRA_1500_TL = {
-    'pdc': 330,                     #
-    'pdc0': 1.553870e+06,           #entrada limite de CC
+SMA_America__SC800CP = {
+    'pdc': 310,                     #
+    'pdc0': 845818.125,           #entrada limite de CC
     'eta_inv_nom': 0.96,
     'eta_inv_ref': 0.9637,
     #"Vac": 6.900000e+02,            # nominal ac voltage
@@ -52,12 +52,12 @@ ABB_ULTRA_1500_TL = {
     #"Idcmax": 2.082930e+03,         #
     #"Mppt_low": 5.850000e+02,       # la entrada minima de voltaje por entrada de mppt
     #"Mppt_high": 8.000000e+02,      # 
-    "Name": "ABB_ULTRA_1500_TL" 
+    "Name": "SMA_America__SC800CP" 
 }
 
 System = {
     'azimuth': 0,
     'tilt': 20,
-    'm_p_s': 20,    #20
-    's_p_i': 288    #126
+    'm_p_s': 19,    #20
+    's_p_i': 144    #288 #126
 }

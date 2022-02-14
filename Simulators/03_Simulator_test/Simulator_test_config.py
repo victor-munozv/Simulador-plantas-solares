@@ -1,11 +1,11 @@
 Location = {
-    'lat' : -32.7777,
-    'long' : -70.8163,
+    'lat' : -32.72927,
+    'long' : -70.74317,
     'tz' : 'America/Santiago',
-    'alt' : 46
+    'alt' : 654
 }
 
-JAM60S01_310 = {
+JAP72S01_320 = {
 #'BIPV': 'N',              # está en el techo o no
 #'Date': '1/1/2018',       # para saber la "depreciación"
 #'T_NOCT': 45.1,           # temperatura de operacion
@@ -28,14 +28,14 @@ JAM60S01_310 = {
 #'PTC': 302.8,             #
 'gamma_pdc': -0.004,       #-0.36
 #'p_mp' : 330,             #
-'pdc0': 310,               # potencia del modulo
+'pdc0': 320,               # potencia del modulo
 #'Technology': 'Mono-c-Si'#
- 'Name': 'JAM60S01_310'     # name
+ 'Name': 'JAP72S01_320'     # name
 }
 
-SMA_America__SC800CP = {
-    'pdc': 310,                     #
-    'pdc0': 845818.125,           #entrada limite de CC
+SMA_America_SB2000HFUS = {
+    'pdc': 320,                     #
+    'pdc0': 2108.52124,           #entrada limite de CC
     'eta_inv_nom': 0.96,
     'eta_inv_ref': 0.9637,
     #"Vac": 6.900000e+02,            # nominal ac voltage
@@ -52,12 +52,12 @@ SMA_America__SC800CP = {
     #"Idcmax": 2.082930e+03,         #
     #"Mppt_low": 5.850000e+02,       # la entrada minima de voltaje por entrada de mppt
     #"Mppt_high": 8.000000e+02,      # 
-    "Name": "SMA_America__SC800CP" 
+    "Name": "SMA_America_SB2000HFUS" 
 }
 
 System = {
     'azimuth': 0,
     'tilt': 20,
-    'm_p_s': 19,    #20
-    's_p_i': 144    #288 #126
+    'm_p_s': 20,    #19 #20
+    's_p_i': 330    #288 #126
 }

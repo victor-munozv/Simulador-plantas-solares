@@ -172,6 +172,7 @@ def filter_month_from_dataFrame(data=None,
                                 first_year=None, 
                                 last_year=None,
                                 months = [1,2,3,4,5,6,7,8,9,10,11,12],
+                                multi = 1000,
                                 p = False): 
 
     if not isinstance(data, pd.DataFrame):
@@ -213,7 +214,7 @@ def filter_month_from_dataFrame(data=None,
             if (year >= first_year ) and (year <= last_year) and month in months:
                 f = str(year)+'-'+str(month)
                 #date_rng = pd.period_range(start=f, end=f, freq='M')
-                value = log[column_total]                     # obtener el valor diario
+                value = log[column_total]*multi                     # obtener el valor diario
                 try:
                     systems[pv][f] = systems[pv][f] + value
                 except:
@@ -278,13 +279,13 @@ def plot_2(x,y,y2,size,save,name_file,color,title,x_label,y_label):
     plt.title(title)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
+    plt.grid()
+    plt.legend()
+    plt.tight_layout()   
     if save == 'si':
         plt.savefig(name_file+'.'+'png',
                    dpi=400,
                    format='png')
-    plt.grid()
-    plt.legend()
-    plt.tight_layout()   
     plt.show()
 ################################################################################################
 def plot_1(x,y,size,save,name_file,color,title,x_label,y_label):
@@ -311,10 +312,17 @@ def get_times_weather(s, loc, c):
     print('ultimo dia',s.iloc[-1].name)
     t = pd.date_range(start=s.iloc[0].name,
                       end=s.iloc[-1].name,
-                      freq='1h',
-                      tz=loc.tz)
+                      freq='1h'
+                      #,tz=loc.tz
+                      )
+    #print('t:',t)
+    #print('t:',len(t))
+    #print('s',len(s))
     w = s.copy()
+   #print('w',len(w))
     w = w.reset_index()
+   #print('w',len(w))
+   #print(w)
     w['date'] = t
     w = w.set_index(pd.DatetimeIndex(w['date']))
     w = pd.DataFrame(w[c])
@@ -349,9 +357,12 @@ def weather_solcast_2(r):
                'dni',
                'ebh',
                'ghi',
-               'relative_humidity',
+               'tilt',
+               'tracking',
                'wind_speed',
                'zenith']
+    ##PeriodEnd,PeriodStart,Period,AirTemp,Azimuth,CloudOpacity,Dhi,Dni,Ebh,Ghi,GtiFixedTilt,GtiTracking,WindSpeed10m,Zenith
+
     ss = pd.read_csv(r,header=0,names=columns)
     format = '%Y-%m-%d %H:%M:%S'
     ss['utc_time'] = pd.to_datetime(ss['utc_time'],infer_datetime_format=True)

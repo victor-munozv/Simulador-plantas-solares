@@ -1,11 +1,11 @@
 Location = {
-    'lat' : -32.72927,
-    'long' : -70.74317,
+    'lat' : -34.068451,
+    'long' : -70.64511,
     'tz' : 'America/Santiago',
-    'alt' : 654
+    'alt' : 46
 }
 
-JAP72S01_320 = {
+TSM_TEG14 = {
 #'BIPV': 'N',              # está en el techo o no
 #'Date': '1/1/2018',       # para saber la "depreciación"
 #'T_NOCT': 45.1,           # temperatura de operacion
@@ -14,7 +14,7 @@ JAP72S01_320 = {
 #'I_sc_ref': 9.14,         # intensida de corto circuito
 #'V_oc_ref': 46.9,         # voltaje de circuito abierto
 #'I_mp_ref': 8.74,         # corriente de maxima potencia
-#'V_mp_ref': 37.8,         # voltaje de maxima potencia
+'V_mp_ref': 38.2,          # voltaje de maxima potencia
 #'alpha_sc': 0.005694,     # coefiente de temperatura del cortocircuito [w]
 #'beta_oc': -0.14351,      # coeficiente de temperatura del voltaje
 #'a_ref': 1.8746,          # 
@@ -28,16 +28,16 @@ JAP72S01_320 = {
 #'PTC': 302.8,             #
 'gamma_pdc': -0.004,       #-0.36
 #'p_mp' : 330,             #
-'pdc0': 320,               # potencia del modulo
+'pdc0': 340,               # potencia del modulo
 #'Technology': 'Mono-c-Si'#
- 'Name': 'JAP72S01_320'     # name
+ 'Name': 'TSM_TEG14'     # name
 }
 
-SMA_America_SB2000HFUS = {
-    'pdc': 320,                     #
-    'pdc0': 2108.52124,           #entrada limite de CC
-    'eta_inv_nom': 0.96,
-    'eta_inv_ref': 0.9637,
+INGETEAM_POWER_TECHNOLOGY_S_A___Ingecon_Sun_1600TL_U_B615_Indoor__450V_ = {
+    'pdc': 340,                     #
+    'pdc0': 1641550.625,            #entrada limite de CC
+    #'eta_inv_nom': 0.96,
+    #'eta_inv_ref': 0.9637,
     #"Vac": 6.900000e+02,            # nominal ac voltage
     #"Paco": 1.500000e+06,           #
     #"Pdco": 1.553870e+06,           #
@@ -52,12 +52,12 @@ SMA_America_SB2000HFUS = {
     #"Idcmax": 2.082930e+03,         #
     #"Mppt_low": 5.850000e+02,       # la entrada minima de voltaje por entrada de mppt
     #"Mppt_high": 8.000000e+02,      # 
-    "Name": "SMA_America_SB2000HFUS" 
+    "Name": "INGETEAM_POWER_TECHNOLOGY_S_A___Ingecon_Sun_1600TL_U_B615_Indoor__450V_" 
 }
 
 System = {
     'azimuth': 0,
     'tilt': 20,
-    'm_p_s': 20,    #19 #20
-    's_p_i': 330    #288 #126
+    'm_p_s': 30,    #20
+    's_p_i': 192    #288 #126
 }

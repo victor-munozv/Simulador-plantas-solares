@@ -5,6 +5,31 @@ import pvlib
 from pvlib import location
 from datetime import datetime
 
+import bokeh as boken
+from bokeh.plotting import figure, output_file, show
+import bokeh.palettes as bkpalet #from bokeh.palettes import PuOr
+import bokeh.transform as bktrans # from bokeh.transform import cumsums
+
+################################################################################################
+def plot_3(x,y,y2,name_file):
+    
+    #source = dic_data_sub #bkmdl.ColumnDataSource(dict_source)
+    p = figure(x_axis_label='x',
+               y_axis_label = 'y',
+               x_axis_type= 'datetime',
+               plot_height = 600, 
+               plot_width=1200,
+               #tools="pan,reset,save",
+               title = 'title')
+    
+    p.line(x=x,y=y, line_width = 2,color='orange' )
+    p.line(x=x,y=y2, line_width = 2)
+    p.yaxis.formatter = boken.models.BasicTickFormatter(use_scientific = True)
+
+    #p.source(x=range(len(filter_data)),y=filter_data['Total'])
+    output_file(name_file+'.html')
+    show(p)
+
 ################################################################################################
 def data_to_pickle(path,name,ext='xlsx'):
     pickle = '.pickle'
@@ -377,6 +402,21 @@ def days_of_the_year(array_timestamp):
 def months_of_the_year(array_timestamp):
     months = list(set([str(x)[0:7] for x in array_timestamp]))
     return(months)
+################################################################################################
+#def days_of_the_year(array_timestamp):
+#    days = list(set([str(x) for x in array_timestamp]))
+#    return(days)
+################################################################################################
+def get_hourly_axes_from_modelChain_object(model,name):
+    class_type = ["<class 'pandas.core.frame.DataFrame'>","<class 'pandas.core.series.Series'>"]
+    tp = str(type(model.ac))
+    if tp in class_type[0]:
+        model = model.ac['i_sc']
+    elif tp in class_type[1]:
+        model = model.ac
+
+    return model.index,model.values  
+
 ################################################################################################
 def get_monthly_axes_from_modelChain_object(model,name):
     class_type = ["<class 'pandas.core.frame.DataFrame'>","<class 'pandas.core.series.Series'>"]

@@ -1,8 +1,8 @@
 Location = {
-    'lat' : -32.7777,
-    'long' : -70.8163,
+    'lat' : -34.3577,
+    'long' : -70.82182,
     'tz' : 'America/Santiago',
-    'alt' : 46
+    'alt' : 50
 }
 
 JAM60S01_310 = {

@@ -14,7 +14,7 @@ TSM_TEG14 = {
 #'I_sc_ref': 9.14,         # intensida de corto circuito
 #'V_oc_ref': 46.9,         # voltaje de circuito abierto
 #'I_mp_ref': 8.74,         # corriente de maxima potencia
-'V_mp_ref': 38.2,          # voltaje de maxima potencia
+#'V_mp_ref': 38.2,          # voltaje de maxima potencia
 #'alpha_sc': 0.005694,     # coefiente de temperatura del cortocircuito [w]
 #'beta_oc': -0.14351,      # coeficiente de temperatura del voltaje
 #'a_ref': 1.8746,          # 

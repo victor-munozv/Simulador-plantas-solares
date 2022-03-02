@@ -11,7 +11,7 @@ import bokeh.palettes as bkpalet #from bokeh.palettes import PuOr
 import bokeh.transform as bktrans # from bokeh.transform import cumsums
 
 ################################################################################################
-def plot_3(x,y,y2,name_file):
+def plot_3(x,y = [],y2,name_file):
     
     #source = dic_data_sub #bkmdl.ColumnDataSource(dict_source)
     p = figure(x_axis_label='x',
@@ -21,8 +21,9 @@ def plot_3(x,y,y2,name_file):
                plot_width=1200,
                #tools="pan,reset,save",
                title = 'title')
+    if len(y) > 0 :
+        p.line(x=x,y=y, line_width = 2,color='orange' )
     
-    p.line(x=x,y=y, line_width = 2,color='orange' )
     p.line(x=x,y=y2, line_width = 2)
     p.yaxis.formatter = boken.models.BasicTickFormatter(use_scientific = True)
 

@@ -261,7 +261,7 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
         return
     
     for pv in data:
-        print(pv,'len:',len(data[pv]))
+        
         pv_series = pd.Series(data=data[pv])
         plt.figure(figsize=(12,6))
         plt.plot(pv_series,label=pv)
@@ -272,6 +272,7 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
         plt.title(pv)
         plt.savefig(pv+'_'+name+'.png',dpi=400)
         plt.show()
+        print(pv,'len:',len(data[pv]))
         
         p = figure(x_axis_label='x',
                x_axis_type= 'datetime',

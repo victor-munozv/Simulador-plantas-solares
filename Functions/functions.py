@@ -11,7 +11,7 @@ import bokeh.palettes as bkpalet #from bokeh.palettes import PuOr
 import bokeh.transform as bktrans # from bokeh.transform import cumsums
 
 ################################################################################################
-def plot_3(x,y = [],y2,name_file):
+def plot_3(x,y,y2,name_file):
     
     #source = dic_data_sub #bkmdl.ColumnDataSource(dict_source)
     p = figure(x_axis_label='x',

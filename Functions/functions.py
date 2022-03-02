@@ -274,6 +274,7 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
         plt.show()
         
         p = figure(x_axis_label='x',
+               x_axis_type= 'datetime',
                y_axis_label = 'y',
                plot_height = 600, 
                plot_width=1200,

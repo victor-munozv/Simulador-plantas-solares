@@ -272,6 +272,31 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
         plt.title(pv)
         plt.savefig(pv+'_'+name+'.png',dpi=400)
         plt.show()
+        
+        p = figure(x_axis_label='x',
+               y_axis_label = 'y',
+               plot_height = 600, 
+               plot_width=1200,
+               #tools="pan,reset,save",
+               title = 'title')
+        x = []
+        y = []
+        for key in data[pv]:
+            x.append(key)
+            if np.isnan(data[pv][key]):
+                y.append(0)
+            else:
+                y.append(data[pv][key])
+        
+        print("x",len(x))
+        print("y",len(y))
+        p.line(x=x,y=y,line_width = 2)
+        #p.yaxis.formatter = boken.models.BasicTickFormatter(use_scientific = True)
+
+        #p.source(x=range(len(x)),y=y)
+        output_file(pv+"_"+name+'.html')
+        show(p)
+        
 ################################################################################################
 ################################################################################################
 ################################################################################################

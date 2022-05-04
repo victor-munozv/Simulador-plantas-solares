@@ -300,6 +300,28 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
         show(p)
         
 ################################################################################################
+def multi_graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
+    if not isinstance(data, dict):
+        print('ERROR1: Data is not a',dict)
+        print('        It is type:',str(type(data)))
+        return
+    
+    if name == None:
+        print('ERROR2: Name not defined')
+        return
+    n = []
+    for ppvv in data:
+        n.append(ppvv)
+        
+    pv_series1 = pd.Series(data=data[n[0]])
+    pv_series2 = pd.Series(data=data[n[1]])
+    pv_series3 = pd.Series(data=data[n[2]])
+    p1,p2,p3 = plt.plot(pv_series1,pv_series2,pv_series3)
+    p = plt.figure(figsize=(12,5))
+    show(p)
+    
+    
+        
 ################################################################################################
 ################################################################################################
 ################################################################################################

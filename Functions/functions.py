@@ -300,25 +300,71 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
         show(p)
         
 ################################################################################################
-def multi_graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
+def multi_graph_png_html(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None, colors=['blue','red','green']):
+    
+    #comprobacion de la data
     if not isinstance(data, dict):
         print('ERROR1: Data is not a',dict)
         print('        It is type:',str(type(data)))
         return
     
+    #comprobacion del nombre
     if name == None:
         print('ERROR2: Name not defined')
         return
-    n = []
-    for ppvv in data:
-        n.append(ppvv)
+    
+    #nombres de las plantas
+    names_pv = []
+    for n_pv in data:
+        names_pv.append(n_pv)
+        #print(p)
         
-    pv_series1 = pd.Series(data=data[n[0]])
-    pv_series2 = pd.Series(data=data[n[1]])
-    pv_series3 = pd.Series(data=data[n[2]])
-    p1,p2,p3 = plt.plot(pv_series1,pv_series2,pv_series3)
-    p = plt.figure(figsize=(12,5))
-    show(p)
+    #largo del eje x, datos tipo datetime para el eje x
+    long_x_axis = 0
+    x = []
+    for n_pv in names_pv:
+        if (long_x_axis == 0): 
+            long_x_axis = len(data[n_pv])
+            x = pd.Series(data=data[n_pv]).index
+            print("long axis x = "+str(long_x_axis))
+            #print(x)
+        else :
+            if (long_x_axis != len(data[n_pv])):
+                print("long conflict in "+ n_pv)
+                print("long = ",len(data[n_pv]))
+    #plot png
+    plt.figure(figsize=(12,6))
+    for n_pv in names_pv:
+        val = pd.Series(data=data[n_pv]).values
+        p = plt.plot(x,val)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.legend(names_pv)
+    plt.grid()
+    plt.title(name)
+    plt.savefig(name+'.png',dpi=400)
+    plt.show()
+        
+    #plot html
+    p = figure(x_axis_label=x_label,
+               x_axis_type='datetime',
+               y_axis_label=y_label,
+               plot_height = 600, 
+               plot_width=1200,
+               #tools="pan,reset,save",
+               title = name)
+    i=0
+    for n_pv in names_pv:
+        y = []
+        for key in data[n_pv]:
+            if np.isnan(data[n_pv][key]):
+                y.append(0)
+            else:
+                y.append(data[n_pv][key])
+        p.line(x=x,y=y,line_width = 2, color =colors[i])
+        i=i+1;
+    output_file(name+'.html')
+    show(p)    
     
     
         

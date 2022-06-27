@@ -6,9 +6,14 @@ from pvlib import location
 from datetime import datetime
 
 import bokeh as boken
-from bokeh.plotting import figure, output_file, show
+from bokeh.plotting import figure, output_file, show, ColumnDataSource
 import bokeh.palettes as bkpalet #from bokeh.palettes import PuOr
 import bokeh.transform as bktrans # from bokeh.transform import cumsums
+
+from bokeh.themes import built_in_themes
+from bokeh.io import curdoc
+
+from bokeh.models import HoverTool
 
 ################################################################################################
 def plot_3(x,y,y2,name_file):
@@ -251,7 +256,7 @@ def filter_month_from_dataFrame(data=None,
                 continue
     return systems
 ################################################################################################
-def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
+def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None,indisp = None, umbral = 0,size=30,dark=True):
     if not isinstance(data, dict):
         print('ERROR1: Data is not a',dict)
         print('        It is type:',str(type(data)))
@@ -264,6 +269,14 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
         
         pv_series = pd.Series(data=data[pv])
         plt.figure(figsize=(12,6))
+        #agregar puntos
+        if not (indisp == None):
+            pv_indisp = pd.Series(data=indisp[pv])
+            for a,b in pv_indisp.items():
+                if b > umbral:
+                    plt.scatter(a,b,color = 'y')
+                else:
+                    plt.scatter(a,b,color = 'r')
         plt.plot(pv_series,label=pv)
         plt.xlabel(x_label)
         plt.ylabel(y_label)
@@ -281,8 +294,26 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
                plot_width=1200,
                #tools="pan,reset,save",
                title = 'title')
+        if dark: 
+            curdoc().theme = 'dark_minimal'
         x = []
         y = []
+        x_dot_r = []
+        y_dot_r = []
+        
+        x_dot_y = []
+        y_dot_y = []
+        for fecha in indisp[pv]:
+            if indisp[pv][fecha] > umbral:
+                x_dot_y.append(fecha) 
+                y_dot_y.append(indisp[pv][fecha])
+            else:
+                x_dot_r.append(fecha) 
+                y_dot_r.append(indisp[pv][fecha])
+                
+        p.dot(x=x_dot_y, y=y_dot_y,size=size,line_alpha=0.9, color='gold',fill_color='grey')
+        p.dot(x=x_dot_r, y=y_dot_r,size=size,line_alpha=0.9, color='crimson',fill_color='grey')
+        
         for key in data[pv]:
             x.append(key)
             if np.isnan(data[pv][key]):
@@ -300,7 +331,7 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None):
         show(p)
         
 ################################################################################################
-def multi_graph_png_html(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None, colors=['blue','red','green']):
+def multi_graph_png_html(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None, colors=['blue','red','green'],indisp = None, umbral = 0,size=30,dark=True):
     
     #comprobacion de la data
     if not isinstance(data, dict):
@@ -336,7 +367,16 @@ def multi_graph_png_html(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',na
     plt.figure(figsize=(12,6))
     for n_pv in names_pv:
         val = pd.Series(data=data[n_pv]).values
+        #agregar puntos
+        if not (indisp == None):
+            pv_indisp = pd.Series(data=indisp[n_pv])
+            for a,b in pv_indisp.items():
+                if b > umbral:
+                    plt.scatter(a,b,color = 'y')
+                else:
+                    plt.scatter(a,b,color = 'r')
         p = plt.plot(x,val)
+        
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.legend(names_pv)
@@ -346,23 +386,44 @@ def multi_graph_png_html(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',na
     plt.show()
         
     #plot html
+    if dark: 
+            curdoc().theme = 'dark_minimal'
+            
     p = figure(x_axis_label=x_label,
                x_axis_type='datetime',
                y_axis_label=y_label,
                plot_height = 600, 
                plot_width=1200,
-               #tools="pan,reset,save",
                title = name)
     i=0
-    for n_pv in names_pv:
+    hover_tool = HoverTool(tooltips=[('Date', '@x{%F}'),('Value', '@y'),('Name','@pv')],formatters={'@x':'datetime'},mode='mouse')
+    p.tools.append(hover_tool)
+    for n_pv in names_pv:   
         y = []
+        x_dot_r = []
+        y_dot_r = []
+        
+        x_dot_y = []
+        y_dot_y = []
+        for fecha in indisp[n_pv]:
+            if indisp[n_pv][fecha] > umbral:
+                x_dot_y.append(fecha) 
+                y_dot_y.append(indisp[n_pv][fecha])
+            else:
+                x_dot_r.append(fecha) 
+                y_dot_r.append(indisp[n_pv][fecha]) 
+        d = dict(pv=[n_pv for i in range(0,len(x_dot_y)-1)],x=x_dot_y,y=y_dot_y)
+        p.dot(source=d,size=size,line_alpha=0.9, color='gold',fill_color='grey')
+        d = dict(pv=[n_pv for i in range(0,len(x_dot_r)-1)],x=x_dot_r,y=y_dot_r)
+        p.dot(source=d,size=size,line_alpha=0.9, color='crimson',fill_color='grey')
         for key in data[n_pv]:
             if np.isnan(data[n_pv][key]):
                 y.append(0)
             else:
                 y.append(data[n_pv][key])
-        p.line(x=x,y=y,line_width = 2, color =colors[i])
-        i=i+1;
+        d = dict(pv=[n_pv for i in range(0,len(x)-1)],x=x,y=y)
+        p.line(source = d,line_width = 2, color =colors[i], line_alpha=0.7)
+        i=i+1;     
     output_file(name+'.html')
     show(p)    
     
@@ -601,3 +662,44 @@ def buscador(textos_inversores,textos_modulos):
             arreglo_inversores_sandia.append(i)
     return {'modulos_cec': arreglo_modulos_cec,'modulos_sandia' : arreglo_modulos_sandia,
            'inversores_cec': arreglo_inversores_cec,'inversores_sandia' : arreglo_inversores_sandia}
+################################################################################################
+def indisponibilidad(data=None,r_start = 7,r_end = 18,umbral = 0, print_=True):
+    if data == None:                                      # 
+        return {}                                         # 
+    r = {}                                                # 
+    indisp_total = {}
+    l = ""
+    for pl in data:                                       # 
+        r[pl] = {}                                        # 
+        indisp_total[pl] = {}
+        for f in data[pl]:                                # 
+            if f.hour >= r_start and f.hour <= r_end:     #      
+                if data[pl][f] <= umbral:                 # 
+                    dato = data[pl][f]                    # 
+                    if not (f.date() in r[pl]):           # 
+                        r[pl][f.date()] = {}              #    
+                    indisp_total[pl][f] = dato
+                    r[pl][f.date()][f.hour] = dato        # 
+                    
+                    indisp_total[pl][f+f.freq*1] = data[pl][f+f.freq*1]
+                    r[pl][f.date()][f.hour+1] = data[pl][f+f.freq*1]
+                    indisp_total[pl][f-f.freq*1] = data[pl][f-f.freq*1]
+                    r[pl][f.date()][f.hour-1] = data[pl][f-f.freq*1]
+    for p in r:
+        for f in r[p]:
+            r_sorted = sorted(r[p][f].items())
+            r[p][f] = {}
+            for a,b in r_sorted:
+                r[p][f][a] = b
+                
+    if print_:
+        for planta in r:
+            print("Indiponibilidad para: ",planta)
+            for fecha in r[planta]:
+                print("   -"," f:",fecha,end=", h: ")
+                for hora in r[planta][fecha]:
+                    dato = r[planta][fecha][hora]
+                    print(hora,end = ", ")
+                print("")
+        
+    return r,indisp_total                                 # 

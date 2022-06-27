@@ -256,7 +256,7 @@ def filter_month_from_dataFrame(data=None,
                 continue
     return systems
 ################################################################################################
-def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None,indisp = None, umbral = 0,size=30,dark=True):
+def graph2(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None,indisp = None, umbral = 0,size=30,dark=True):
     if not isinstance(data, dict):
         print('ERROR1: Data is not a',dict)
         print('        It is type:',str(type(data)))
@@ -331,7 +331,7 @@ def graph(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None,indisp 
         show(p)
         
 ################################################################################################
-def multi_graph_png_html(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None, colors=['blue','red','green'],indisp = None, umbral = 0,size=30,dark=True):
+def multi_graph_png_html2(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None, colors=['blue','red','green'],indisp = None, umbral = 0,size=30,dark=True):
     
     #comprobacion de la data
     if not isinstance(data, dict):

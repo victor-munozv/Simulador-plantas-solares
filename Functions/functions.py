@@ -46,7 +46,7 @@ def data_to_pickle(path,name,ext='xlsx'):
              'ERROR3: The picke could NOT be generated in:',
              'ERROR4: Pickle read failed']
     try:
-        print('- Tried to read file picke:',path_name_picke)
+        print('- Tried to read file picke:',path_name_pickle)
         p = pd.read_pickle(path_name_picke)
         print('Pickle found in:',path_name_picke)
         print('Returning data')
@@ -544,6 +544,16 @@ def weather_solcast_2(r):
                'tracking',
                'wind_speed',
                'zenith']
+    ##PeriodEnd,PeriodStart,Period,AirTemp,Azimuth,CloudOpacity,Dhi,Dni,Ebh,Ghi,GtiFixedTilt,GtiTracking,WindSpeed10m,Zenith
+
+    ss = pd.read_csv(r,header=0,names=columns)
+    format = '%Y-%m-%d %H:%M:%S'
+    ss['utc_time'] = pd.to_datetime(ss['utc_time'],infer_datetime_format=True)
+    ss = ss.set_index(pd.DatetimeIndex(ss['utc_time']))
+    ss = ss.drop(['utc_time'], axis=1)
+    return ss
+################################################################################################
+def weather_solcast_3(r,columns):
     ##PeriodEnd,PeriodStart,Period,AirTemp,Azimuth,CloudOpacity,Dhi,Dni,Ebh,Ghi,GtiFixedTilt,GtiTracking,WindSpeed10m,Zenith
 
     ss = pd.read_csv(r,header=0,names=columns)

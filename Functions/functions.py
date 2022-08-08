@@ -46,6 +46,7 @@ def data_to_pickle(path,name,ext='xlsx'):
              'ERROR3: The picke could NOT be generated in:',
              'ERROR4: Pickle read failed']
     try:
+        print('- Tried to read file picke:',path_name_picke)
         p = pd.read_pickle(path_name_picke)
         print('Pickle found in:',path_name_picke)
         print('Returning data')

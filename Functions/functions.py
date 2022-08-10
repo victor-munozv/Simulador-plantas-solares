@@ -495,6 +495,12 @@ def multi_graph_png_html3(data=None,x_sim=None,y_sim=None,x_label= 'Year [ ]',y_
     i=0
     hover_tool = HoverTool(tooltips=[('Date', '@x{%F}'),('Value', '@y'),('Name','@pv')],formatters={'@x':'datetime'},mode='mouse')
     p.tools.append(hover_tool)
+    
+    # plot simulation
+    dd = dict(pv=[n_pv for i in range(0,len(x_sim)-1)],x=x_sim,y=y_sim)
+    p.line(source = dd,line_width = 2, color ='yellow', line_alpha=0.7)
+    
+    # plot generation real
     for n_pv in names_pv:   
         y = []
         x_dot_r = []
@@ -522,9 +528,7 @@ def multi_graph_png_html3(data=None,x_sim=None,y_sim=None,x_label= 'Year [ ]',y_
         p.line(source = d,line_width = 2, color =colors[i], line_alpha=0.7)
         i=i+1;
         
-    # plot simulacion
-    dd = dict(pv=[n_pv for i in range(0,len(x_sim)-1)],x=x_sim,y=y_sim)
-    p.line(source = dd,line_width = 2, color ='yellow', line_alpha=0.7)
+   
     
     output_file(name+'.html')
     show(p)    

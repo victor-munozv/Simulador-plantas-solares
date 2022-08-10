@@ -16,7 +16,7 @@ from bokeh.io import curdoc
 from bokeh.models import HoverTool
 
 ################################################################################################
-def plot_3(x,y,y2,name_file):
+def plot_3(x,y,y2,name_file,c=['orange','blue']):
     
     #source = dic_data_sub #bkmdl.ColumnDataSource(dict_source)
     p = figure(x_axis_label='x',
@@ -27,7 +27,7 @@ def plot_3(x,y,y2,name_file):
                #tools="pan,reset,save",
                title = 'title')
     if len(y) > 0 :
-        p.line(x=x,y=y, line_width = 2,color='orange' )
+        p.line(x=x,y=y, line_width = 2,color=c[0] )
     
     p.line(x=x,y=y2, line_width = 2)
     p.yaxis.formatter = boken.models.BasicTickFormatter(use_scientific = True)
@@ -40,19 +40,19 @@ def plot_3(x,y,y2,name_file):
 def data_to_pickle(path,name,ext='xlsx'):
     pickle = '.pickle'
     path_name_ext = path+name+'.'+ext
-    path_name_picke = path+name+pickle
+    path_name_pickle = path+name+pickle
     error = ['ERROR1: pickle NOT found in path:',
              'ERROR2:','NOT found in:',
              'ERROR3: The picke could NOT be generated in:',
              'ERROR4: Pickle read failed']
     try:
         print('- Tried to read file picke:',path_name_pickle)
-        p = pd.read_pickle(path_name_picke)
-        print('Pickle found in:',path_name_picke)
+        p = pd.read_pickle(path_name_pickle)
+        print('Pickle found in:',path_name_pickle)
         print('Returning data')
         return p
     except:
-        print(error[0],path_name_picke)
+        print(error[0],path_name_pickle)
         try:
             print('- Tried to read file:',path_name_ext)
             if (ext == 'xlsx'):
@@ -62,18 +62,18 @@ def data_to_pickle(path,name,ext='xlsx'):
             print('    Read file')
             try:
                 print('- Trying to generate pickle')
-                file.to_pickle(path_name_picke)
+                file.to_pickle(path_name_pickle)
                 print('    Pickle generated')
                 try:
                     print('- Trying to read generated pickle')
-                    p = pd.read_pickle(path_name_picke)
-                    print('    Pickle read on: ',path_name_picke)
+                    p = pd.read_pickle(path_name_pickle)
+                    print('    Pickle read on: ',path_name_pickle)
                     print('Returning data')
                     return p
                 except:
                     print(eror[4])
             except:
-                print(error[3],path_name_picke)       
+                print(error[3],path_name_pickle)       
         except:
             print(error[1],ext,error[2],path_name_ext)
 ################################################################################################
@@ -540,7 +540,7 @@ def weather_solcast_2(r):
                'dni',
                'ebh',
                'ghi',
-               'tilt',
+             # 'tilt',
                'tracking',
                'wind_speed',
                'zenith']
@@ -553,14 +553,16 @@ def weather_solcast_2(r):
     ss = ss.drop(['utc_time'], axis=1)
     return ss
 ################################################################################################
-def weather_solcast_3(r,columns):
+def weather_solcast_3(r,columns, pr=True):
     ##PeriodEnd,PeriodStart,Period,AirTemp,Azimuth,CloudOpacity,Dhi,Dni,Ebh,Ghi,GtiFixedTilt,GtiTracking,WindSpeed10m,Zenith
 
     ss = pd.read_csv(r,header=0,names=columns)
+    if(pr):
+        print(ss)
     format = '%Y-%m-%d %H:%M:%S'
-    ss['utc_time'] = pd.to_datetime(ss['utc_time'],infer_datetime_format=True)
-    ss = ss.set_index(pd.DatetimeIndex(ss['utc_time']))
-    ss = ss.drop(['utc_time'], axis=1)
+    ss[columns[0]] = pd.to_datetime(ss[columns[0]],infer_datetime_format=True)
+    ss = ss.set_index(pd.DatetimeIndex(ss[columns[0]]))
+    ss = ss.drop([columns[0]], axis=1)
     return ss
 ################################################################################################
 def days_of_the_year(array_timestamp):

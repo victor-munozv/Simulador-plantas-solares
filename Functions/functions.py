@@ -427,7 +427,107 @@ def multi_graph_png_html2(data=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',n
         i=i+1;     
     output_file(name+'.html')
     show(p)    
+################################################################################################
+def multi_graph_png_html3(data=None,x_sim=None,y_sim=None,x_label= 'Year [ ]',y_label='Power [MW/ ]',name=None, colors=['blue','red','green'],indisp = None, umbral = 0,size=30,dark=True):
     
+    #comprobacion de la data
+    if not isinstance(data, dict):
+        print('ERROR1: Data is not a',dict)
+        print('        It is type:',str(type(data)))
+        return
+    
+    #comprobacion del nombre
+    if name == None:
+        print('ERROR2: Name not defined')
+        return
+    
+    #nombres de las plantas
+    names_pv = []
+    for n_pv in data:
+        names_pv.append(n_pv)
+        #print(p)
+        
+    #largo del eje x, datos tipo datetime para el eje x
+    long_x_axis = 0
+    x = []
+    for n_pv in names_pv:
+        if (long_x_axis == 0): 
+            long_x_axis = len(data[n_pv])
+            x = pd.Series(data=data[n_pv]).index
+            print("long axis x = "+str(long_x_axis))
+            #print(x)
+        else :
+            if (long_x_axis != len(data[n_pv])):
+                print("long conflict in "+ n_pv)
+                print("long = ",len(data[n_pv]))
+    #plot png
+    plt.figure(figsize=(12,6))
+    for n_pv in names_pv:
+        val = pd.Series(data=data[n_pv]).values
+        #agregar puntos
+        if not (indisp == None):
+            pv_indisp = pd.Series(data=indisp[n_pv])
+            for a,b in pv_indisp.items():
+                if b > umbral:
+                    plt.scatter(a,b,color = 'y')
+                else:
+                    plt.scatter(a,b,color = 'r')
+        p = plt.plot(x,val)
+        
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.legend(names_pv)
+    plt.grid()
+    plt.title(name)
+    plt.savefig(name+'.png',dpi=400)
+    plt.show()
+        
+    #plot html
+    if dark: 
+            curdoc().theme = 'dark_minimal'
+            
+    p = figure(x_axis_label=x_label,
+               x_axis_type='datetime',
+               y_axis_label=y_label,
+               plot_height = 600, 
+               plot_width=1200,
+               title = name)
+    i=0
+    hover_tool = HoverTool(tooltips=[('Date', '@x{%F}'),('Value', '@y'),('Name','@pv')],formatters={'@x':'datetime'},mode='mouse')
+    p.tools.append(hover_tool)
+    for n_pv in names_pv:   
+        y = []
+        x_dot_r = []
+        y_dot_r = []
+        
+        x_dot_y = []
+        y_dot_y = []
+        for fecha in indisp[n_pv]:
+            if indisp[n_pv][fecha] > umbral:
+                x_dot_y.append(fecha) 
+                y_dot_y.append(indisp[n_pv][fecha])
+            else:
+                x_dot_r.append(fecha) 
+                y_dot_r.append(indisp[n_pv][fecha]) 
+        d = dict(pv=[n_pv for i in range(0,len(x_dot_y)-1)],x=x_dot_y,y=y_dot_y)
+        p.dot(source=d,size=size,line_alpha=0.9, color='gold',fill_color='grey')
+        d = dict(pv=[n_pv for i in range(0,len(x_dot_r)-1)],x=x_dot_r,y=y_dot_r)
+        p.dot(source=d,size=size,line_alpha=0.9, color='crimson',fill_color='grey')
+        for key in data[n_pv]:
+            if np.isnan(data[n_pv][key]):
+                y.append(0)
+            else:
+                y.append(data[n_pv][key])
+        d = dict(pv=[n_pv for i in range(0,len(x)-1)],x=x,y=y)
+        p.line(source = d,line_width = 2, color =colors[i], line_alpha=0.7)
+        i=i+1;
+        
+    # plot simulacion
+    dd = dict(pv=[n_pv for i in range(0,len(x_sim)-1)],x=x_sim,y=y_sim)
+    p.line(source = dd,line_width = 2, color ='yellow', line_alpha=0.7)
+    
+    output_file(name+'.html')
+    show(p)    
     
         
 ################################################################################################

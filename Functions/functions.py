@@ -664,9 +664,9 @@ def weather_solcast_3(r,columns, pr=True):
     if(pr):
         print(ss)
     format = '%Y-%m-%d %H:%M:%S'
-    ss[columns[0]] = pd.to_datetime(ss[columns[0]],infer_datetime_format=True)
-    ss = ss.set_index(pd.DatetimeIndex(ss[columns[0]]))
-    ss = ss.drop([columns[0]], axis=1)
+    ss[columns[0]] = pd.to_datetime(ss[columns[1]],infer_datetime_format=True)
+    ss = ss.set_index(pd.DatetimeIndex(ss[columns[1]]))
+    ss = ss.drop([columns[1]], axis=1)
     return ss
 ################################################################################################
 def days_of_the_year(array_timestamp):

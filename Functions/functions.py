@@ -497,8 +497,11 @@ def multi_graph_png_html3(data=None,x_sim=None,y_sim=None,x_label= 'Year [ ]',y_
     p.tools.append(hover_tool)
     
     # plot simulation
-    dd = dict(pv=[n_pv for i in range(0,len(x_sim)-1)],x=x_sim,y=y_sim)
+    dd = dict(pv=['yellow' for i in range(0,len(x_sim)-1)],x=x_sim,y=y_sim)
     p.line(source = dd,line_width = 2, color ='yellow', line_alpha=0.7)
+    
+    #names pv
+    names_pv_colors= ['Planta_1','Planta_2','Planta_3']
     
     # plot generation real
     for n_pv in names_pv:   
@@ -515,8 +518,6 @@ def multi_graph_png_html3(data=None,x_sim=None,y_sim=None,x_label= 'Year [ ]',y_
             else:
                 x_dot_r.append(fecha) 
                 y_dot_r.append(indisp[n_pv][fecha]) 
-        d = dict(pv=[n_pv for i in range(0,len(x_dot_y)-1)],x=x_dot_y,y=y_dot_y)
-        p.dot(source=d,size=size,line_alpha=0.9, color='gold',fill_color='grey')
         d = dict(pv=[n_pv for i in range(0,len(x_dot_r)-1)],x=x_dot_r,y=y_dot_r)
         p.dot(source=d,size=size,line_alpha=0.9, color='crimson',fill_color='grey')
         for key in data[n_pv]:
@@ -524,9 +525,11 @@ def multi_graph_png_html3(data=None,x_sim=None,y_sim=None,x_label= 'Year [ ]',y_
                 y.append(0)
             else:
                 y.append(data[n_pv][key])
-        d = dict(pv=[n_pv for i in range(0,len(x)-1)],x=x,y=y)
+        ccc = colors[i]
+        d = dict(pv=[ccc for i in range(0,len(x)-1)],x=x,y=y)
         p.line(source = d,line_width = 2, color =colors[i], line_alpha=0.7)
         i=i+1;
+        
         
    
     

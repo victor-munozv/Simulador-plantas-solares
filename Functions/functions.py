@@ -822,4 +822,39 @@ def indisponibilidad(data=None,r_start = 7,r_end = 18,umbral = 0, print_=True):
                     print(hora,end = ", ")
                 print("")
         
-    return r,indisp_total                                 # 
+    return r,indisp_total                                 #
+################################################################################################
+def unavaibility_day(data=None,umbral = 0, print_=True):
+    if data == None:                                      # 
+        return {}                                         # 
+    r = {}                                                # 
+    indisp_total = {}
+    l = ""
+    for pl in data:                                       # 
+        r[pl] = {}                                        # 
+        indisp_total[pl] = {}
+        for f in data[pl]:                                # 
+            if data[pl][f] <= umbral:                 # 
+                dato = data[pl][f]                    # 
+                if not (f.date() in r[pl]):           # 
+                    r[pl][f.date()] = {}              #    
+                indisp_total[pl][f] = dato
+                r[pl][f.date()][f.hour] = dato        # 
+    for p in r:
+        for f in r[p]:
+            r_sorted = sorted(r[p][f].items())
+            r[p][f] = {}
+            for a,b in r_sorted:
+                r[p][f][a] = b
+                
+    if print_:
+        for planta in r:
+            print("Indiponibilidad para: ",planta)
+            for fecha in r[planta]:
+                print("   -"," f:",fecha,end=", h: ")
+                for hora in r[planta][fecha]:
+                    dato = r[planta][fecha][hora]
+                    print(hora,end = ", ")
+                print("")
+        
+    return r,indisp_total

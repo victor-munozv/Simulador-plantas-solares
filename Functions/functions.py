@@ -858,3 +858,28 @@ def unavaibility_day(data=None,umbral = 0, print_=True):
                 print("")
         
     return r,indisp_total
+################################################################################################
+def unavaibility_month(data=None,umbral = 0, print_=True):
+    if data == None:                                      # 
+        return {}                                         # 
+    r = {}                                                # 
+    indisp_total = {}
+    l = ""
+    for pl in data:                                       # 
+        r[pl] = {}                                        # 
+        indisp_total[pl] = {}
+        for f in data[pl]:                                # 
+            if data[pl][f] <= umbral:                 # 
+                dato = data[pl][f]
+                indisp_total[pl][f] = dato
+                r[pl][f] = dato        
+
+                
+    if print_:
+        for planta in r:
+            print("Indiponibilidad para: ",planta)
+            for fecha in r[planta]:
+                dato = r[planta][fecha]
+                print("   -"," f:",fecha,', ',dato)
+        
+    return r,indisp_total

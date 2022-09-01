@@ -245,14 +245,17 @@ def filter_month_from_dataFrame(data=None,
             month = int(date.split('-')[1])
             if (year >= first_year ) and (year <= last_year) and month in months:
                 f = str(year)+'-'+str(month)
-                #date_rng = pd.period_range(start=f, end=f, freq='M')
+                #print(f)
+                #date_rng = pd.period_range(str(year)+'-'+str(month), freq="M", periods=1)
+                date_rng= pd.date_range(str(year)+'-'+str(month),periods=1, freq='M')[0]
+                print(pd.date_range(str(year)+'-'+str(month),periods=1, freq='M')[0])
                 value = log[column_total]*multi                     # obtener el valor diario
                 try:
-                    systems[pv][f] = systems[pv][f] + value
+                    systems[pv][date_rng] = systems[pv][date_rng] + value
                 except:
-                    systems[pv][f] = value 
+                    systems[pv][date_rng] = value 
                 if p:
-                    print('pv:',pv,'year:',year,'Date',f,'value',systems[pv][f])
+                    print('pv:',pv,'year:',year,'Date',f,'value',systems[pv][date_rng])
             else:
                 continue
     return systems

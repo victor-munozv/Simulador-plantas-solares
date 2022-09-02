@@ -704,7 +704,12 @@ def get_monthly_axes_from_modelChain_object(model,name):
         model = model.ac['i_sc']
     elif tp in class_type[1]:
         model = model.ac
+    #to-do: deprecated index_months
     index_months = months_of_the_year(model.index)
+    index_resample = model.resample('m').sum().index
+    print(index_resample)
+    #index_timestamp = pd.date_range(start=index_months[0], periods=len(index_months), freq='M')
+    #print('DATE TIME INDEX', index_timestamp)
     array_months = np.zeros(len(index_months))
     dict_months = {} 
     for m in index_months:
@@ -720,7 +725,7 @@ def get_monthly_axes_from_modelChain_object(model,name):
     for i in ac:
         x.append(i[0])
         y.append(i[1])        
-    return x,y  
+    return index_resample,y  
 ################################################################################################
 def get_daily_axes_from_modelChain_object(model,name):
     #print('Iniciando construcción de registros de ac diarios para:',name)
@@ -732,7 +737,10 @@ def get_daily_axes_from_modelChain_object(model,name):
     elif tp in class_type[1]:
         #print('Es una serie ...')
         model = model.ac      
-    #print("2- Extrayendo los dias que tiene la serie de tiempo ...")   
+    #print("2- Extrayendo los dias que tiene la serie de tiempo ...")
+    
+    #to-do: deprecated index_days
+    index_resample = model.resample('d').sum().index
     index_days = days_of_the_year(model.index)
     #print("   Dias encontrados: ", len(index_days))   
     array_days = np.zeros(len(index_days))
@@ -755,7 +763,7 @@ def get_daily_axes_from_modelChain_object(model,name):
         x.append(i[0])
         y.append(i[1])        
     #print("Finalizado con éxito. \n")
-    return x,y
+    return index_resample,y
 ################################################################################################
 def buscador(textos_inversores,textos_modulos):  
     # busca modulos cec y sandia
